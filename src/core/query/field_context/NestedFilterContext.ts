@@ -10,7 +10,7 @@ export class NestedFilterContext extends FieldContext {
       this.fieldOptions.options.path,
       FilterBucket(
         "inner",
-        this.fieldOptions.options,
+        this.fieldOptions.options.filter,
         ...aggregations
       )
     )]
