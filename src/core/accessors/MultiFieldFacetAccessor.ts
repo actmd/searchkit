@@ -2,7 +2,6 @@ import { FacetAccessor } from "."
 import { TermsBucket, FilterBucket } from ".."
 import {omitBy} from "lodash"
 import {isUndefined} from "lodash"
-import {get} from "lodash"
 import {reduce} from "lodash"
 
 export class MultiFieldFacetAccessor extends FacetAccessor {
