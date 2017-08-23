@@ -3,6 +3,7 @@ import { TermsBucket, FilterBucket } from ".."
 import {omitBy} from "lodash"
 import {isUndefined} from "lodash"
 import {reduce} from "lodash"
+import {CardinalityMetric} from "../query"
 
 export class MultiFieldFacetAccessor extends FacetAccessor {
 
@@ -26,7 +27,8 @@ export class MultiFieldFacetAccessor extends FacetAccessor {
           this.uuid,
           query.getFiltersWithoutKeys(excludedKey),
           ...this.fieldContext.wrapAggregations(
-            this.buildAggregations(query)
+            this.buildAggregations(query),
+            CardinalityMetric(this.key+"_count", this.key)
           )
         ))
     }
