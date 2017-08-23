@@ -35,7 +35,8 @@ export class MultiFieldFacetAccessor extends FacetAccessor {
   }
 
   buildAggregations(query) {
-    return reduce(this.options.fields.reverse(), (result:object, field:string, i:number) => {
+    const options = [].concat(this.options.fields).reverse();
+    return reduce(options, (result:object, field:string, i:number) => {
         return TermsBucket(field, field, omitBy({
             size:this.size,
             order:this.getOrder(),
