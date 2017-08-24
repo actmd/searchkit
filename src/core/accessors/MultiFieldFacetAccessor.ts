@@ -50,10 +50,8 @@ export class MultiFieldFacetAccessor extends FacetAccessor {
         if (field == this.key) {
           return terms;
         }
-        return [
-          terms,
-          CardinalityMetric(field+"_count", field)
-        ]
+        const cardinality = CardinalityMetric(field+"_count", field)
+        return {...terms, ...cardinality}
       }, {}
     )
   }
