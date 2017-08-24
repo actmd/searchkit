@@ -37,12 +37,14 @@ export class MultiFieldFacetAccessor extends FacetAccessor {
   buildAggregations(query) {
     const options = [].concat(this.options.fields).reverse();
     return reduce(options, (result:object, field:string, i:number) => {
+        const accessor = this.searchkit.accessors.statefulAccessors[field];
+
         const terms = TermsBucket(field, field, omitBy({
-            size:this.size,
-            order:this.getOrder(),
-            include: this.options.include,
-            exclude: this.options.exclude,
-            min_doc_count:this.options.min_doc_count
+            size: accessor.size,
+            order: accessor.getOrder(),
+            include: accessor.options.include,
+            exclude: accessor.options.exclude,
+            min_doc_count:accessor.options.min_doc_count
           }, isUndefined), result
         );
         if (field == this.key) {
