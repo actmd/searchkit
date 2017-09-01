@@ -34,7 +34,7 @@ export class AxiosESTransport extends ESTransport{
   }
 
   search(query:Object): Promise<AxiosResponse> {
-    return this.axios.post(this.options.searchUrlPath, query)
+    return this.axios.get(this.options.searchUrlPath, query)
       .then(this.getData)
   }
 
