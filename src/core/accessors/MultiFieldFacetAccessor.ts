@@ -1,9 +1,14 @@
 import { FacetAccessor } from "."
-import { TermsBucket, FilterBucket } from ".."
 import {omitBy} from "lodash"
 import {isUndefined} from "lodash"
 import {reduce} from "lodash"
-import {CardinalityMetric} from "../query"
+import {keys} from "lodash"
+import {values} from "lodash"
+import {
+  TermQuery, TermsBucket, CardinalityMetric,
+  SelectedFilter, FilterBucket, BoolMust
+} from "../query";
+import {map} from "lodash"
 
 export class MultiFieldFacetAccessor extends FacetAccessor {
 
@@ -54,5 +59,29 @@ export class MultiFieldFacetAccessor extends FacetAccessor {
         return {...terms, ...cardinality}
       }, {}
     )
+  }
+
+  buildSharedQuery(query) {
+    var filters = this.state.getValue()
+
+    if(filters.length > 0){
+
+      var filterTerms = map(filters, (filter)=> {
+        const filterKeys = keys(filter),
+        _filterTerms = filterKeys.map((k) => {
+            return TermQuery(k, filter[k])
+          });
+
+        return this.fieldContext.wrapFilter({
+          bool: {
+            filter: _filterTerms
+          }
+        })
+      })
+
+      query = query.addFilter(this.uuid, filterTerms)
+    }
+
+    return query
   }
 }

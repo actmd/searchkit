@@ -4,4 +4,5 @@ export declare class MultiFieldFacetAccessor extends FacetAccessor {
     getBuckets(path?: any[]): any;
     buildOwnQuery(query: any): any;
     buildAggregations(query: any): object;
+    buildSharedQuery(query: any): any;
 }

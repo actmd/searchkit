@@ -5,5 +5,6 @@ export declare class ArrayState extends State<Array<string | number>> {
     clear(): any;
     remove(val: any): any;
     add(val: any): any;
+    resolveValue(currentState: any, val: any): any;
     contains(val: any): boolean;
 }

@@ -20,5 +20,7 @@ export interface FacetFilterProps extends SearchkitComponentProps {
     bucketsTransform?: Function;
     items?: Array<Object>;
     total?: number;
+    onSelect?: Function;
+    getSelectedItems?: Function;
 }
 export declare const FacetFilterPropTypes: any;

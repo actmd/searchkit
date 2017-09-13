@@ -1,8 +1,9 @@
-import * as React from "react";
-
+import * as React from "react"
+import { filter } from "lodash"
+import { get } from "lodash"
 import { MenuFilter } from "./MenuFilter";
 import { RefinementListFilter } from './RefinementListFilter';
-import { MultiFieldFacetAccessor, FastClick } from '../../../../core';
+import { MultiFieldFacetAccessor, FastClick, renderComponent, FacetAccessor } from '../../../../core';
 
 export class MenuRefinementListFilter extends MenuFilter {
   defineAccessor() {
@@ -11,12 +12,68 @@ export class MenuRefinementListFilter extends MenuFilter {
       ...this.getAccessorOptions()
     });
   }
+
+  onSelect(value, childKey, childValue) {
+    this.accessor.state = this.accessor.state.toggle({
+      [this.props.id]: value,
+      [childKey]: childValue
+    })
+    this.searchkit.performSearch()
+  }
+
+  getSelectedItemsInBucket(bucket, childKey) {
+    const selectedItems = this.accessor.state.getValue(),
+    bucketItems = filter(selectedItems, (item) => {
+      return get(item,[this.props.id]) == bucket
+    });
+
+    return bucketItems ? bucketItems.map((i)=> i[childKey]) : [];
+  }
+
+  getSelectedItems(){
+    return this.accessor.state.getValue()
+  }
+
+  render() {
+    const { listComponent, containerComponent, showCount, title, id, countFormatter } = this.props
+    return renderComponent(containerComponent, {
+      title,
+      className: id ? `filter--${id}` : undefined,
+      disabled: false // !this.hasOptions()
+    }, [
+      renderComponent(listComponent, {
+        key:"listComponent",
+        items: this.getItems(),
+        itemComponent:this.props.itemComponent,
+        selectedItems: this.getSelectedItems(),
+        toggleItem: this.toggleFilter.bind(this),
+        setItems: this.setFilters.bind(this),
+        docCount: this.accessor.getDocCount(),
+        showCount,
+        translate:this.translate,
+        countFormatter,
+        onSelect: this.onSelect.bind(this),
+        getSelectedItems: this.getSelectedItemsInBucket.bind(this)
+      }),
+      this.renderShowMore()
+    ]);
+  }
 }
 
 export class ChildRefinementListFilter extends RefinementListFilter {
+
   getItems() {
     return this.props.items;
   }
+
+  toggleFilter(key) {
+    this.props.onSelect(this.props.title, this.props.id, key);
+  }
+
+  getSelectedItems() {
+    return this.props.getSelectedItems(this.props.title, this.props.id);
+  }
+
   renderShowMore() {
     const option = this.getMoreSizeOption()
 
