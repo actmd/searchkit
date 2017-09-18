@@ -4,5 +4,6 @@ export declare class MultiFieldFacetAccessor extends FacetAccessor {
     getBuckets(path?: any[]): any;
     buildOwnQuery(query: any): any;
     buildAggregations(query: any): object;
+    createNestedQuery(filters: any): any;
     buildSharedQuery(query: any): any;
 }

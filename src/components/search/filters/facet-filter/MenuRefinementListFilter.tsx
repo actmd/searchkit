@@ -39,7 +39,7 @@ export class MenuRefinementListFilter extends MenuFilter {
     return renderComponent(containerComponent, {
       title,
       className: id ? `filter--${id}` : undefined,
-      disabled: false // !this.hasOptions()
+      disabled: !this.hasOptions()
     }, [
       renderComponent(listComponent, {
         key:"listComponent",
@@ -100,7 +100,7 @@ export class ChildRefinementListFilter extends RefinementListFilter {
     if (total <= size) {
       option = {size: accessor.defaultSize, label: accessor.translate("facets.view_less")}
     } else if (total > size ) {
-      option = {size:total, label: accessor.translate("facets.view_all")}
+      option = {size: 100, label: accessor.translate("facets.view_all")}
     } else if (total) {
       option = null
     }

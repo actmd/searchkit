@@ -3,7 +3,8 @@ import {omitBy} from "lodash"
 import {isUndefined} from "lodash"
 import {reduce} from "lodash"
 import {keys} from "lodash"
-import {values} from "lodash"
+import {groupBy} from "lodash"
+import {each} from "lodash"
 import {
   TermQuery, TermsBucket, CardinalityMetric,
   SelectedFilter, FilterBucket, BoolMust
@@ -61,25 +62,48 @@ export class MultiFieldFacetAccessor extends FacetAccessor {
     )
   }
 
-  buildSharedQuery(query) {
-    var filters = this.state.getValue()
-
-    if(filters.length > 0){
-
-      var filterTerms = map(filters, (filter)=> {
-        const filterKeys = keys(filter),
-        _filterTerms = filterKeys.map((k) => {
+  createNestedQuery(filters) {
+    const filterTerms = map(filters, (filter)=> {
+      const filterKeys = keys(filter);
+      return {
+        bool: {
+          filter: filterKeys.map((k) => {
             return TermQuery(k, filter[k])
-          });
+          })
+        }
+      }
+    });
 
-        return this.fieldContext.wrapFilter({
-          bool: {
-            filter: _filterTerms
-          }
-        })
+    return this.fieldContext.wrapFilter({
+      bool: {
+        should: filterTerms
+      }
+    })
+  }
+
+  buildSharedQuery(query) {
+    const filters = this.state.getValue()
+
+    if(filters.length > 0) {
+
+      const groupedFilters = groupBy(filters, (f) => f[this.key]),
+      filterTerms = {
+        bool: {
+          filter: map(groupedFilters, this.createNestedQuery.bind(this))
+        }
+      }
+
+      const selectedFilters:Array<SelectedFilter> = map(filters, (filter)=> {
+        return {
+          name:this.options.title || this.translate(this.key),
+          value:this.translate(filter),
+          id:this.options.id,
+          remove:()=> this.state = this.state.remove(filter)
+        }
       })
 
       query = query.addFilter(this.uuid, filterTerms)
+        .addSelectedFilters(selectedFilters)
     }
 
     return query
