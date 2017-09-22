@@ -67,7 +67,7 @@ export class MultiFieldFacetAccessor extends FacetAccessor {
       const filterKeys = keys(filter);
       return {
         bool: {
-          filter: filterKeys.map((k) => {
+          must: filterKeys.map((k) => {
             return TermQuery(k, filter[k])
           })
         }
@@ -89,7 +89,7 @@ export class MultiFieldFacetAccessor extends FacetAccessor {
       const groupedFilters = groupBy(filters, (f) => f[this.key]),
       filterTerms = {
         bool: {
-          filter: map(groupedFilters, this.createNestedQuery.bind(this))
+          must: map(groupedFilters, this.createNestedQuery.bind(this))
         }
       }
 
