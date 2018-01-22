@@ -29,6 +29,9 @@ export declare class SelectedFilters extends SearchkitComponent<SelectedFiltersP
     getFilters(): Array<any>;
     hasFilters(): boolean;
     renderFilter(filter: any): React.ReactElement<any>;
+    translateFilterValue(filterValue: any, filterId: any): any;
+    formatDate(dateString: any): string;
+    fromSearchkitToDisplayDate(dateString: any): string;
     removeFilter(filter: any): void;
     render(): JSX.Element;
 }
