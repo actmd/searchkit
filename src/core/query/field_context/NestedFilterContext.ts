@@ -17,7 +17,7 @@ export class NestedFilterContext extends FieldContext {
   }
 
   getAggregationPath() {
-    return ["inner", "inner"]
+    return ["inner"]
   }
 
   wrapFilter(filter) {
