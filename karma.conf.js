@@ -16,10 +16,10 @@ module.exports = function (config) {
     frameworks: ['jasmine'], //use jasmine as framework
     files: [
       path.join(__dirname, 'node_modules', 'phantomjs-polyfill', 'bind-polyfill.js'), // To enable PhantomJS to render React components
-      'webpack.tests.js' //test files
+      './src/__test__/**/*' //test files
     ],
     preprocessors: {
-      'webpack.tests.js': ['webpack', 'sourcemap']
+      './src/__test__/**/*': ['webpack', 'sourcemap']
     }
 
   })
@@ -37,10 +37,11 @@ module.exports = function (config) {
   if(needsCoverage){
     webpack = webpack.merge({
       module:{
-        postLoaders: [{
+        loaders: [{
           test: /\.(js|tsx?)/,
           exclude: /(test|node_modules|bower_components)/,
-          loader: 'istanbul-instrumenter'
+          loader: 'istanbul-instrumenter',
+          enforce: "post"
         }]
       }
     })
