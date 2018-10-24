@@ -3,6 +3,7 @@ import {SearchkitManager} from "../SearchkitManager";
 import {Utils} from "../support"
 const get = require("lodash/get")
 const compact = require("lodash/compact")
+const flatten = require("lodash/flatten")
 
 export class Accessor {
   searchkit:SearchkitManager
@@ -55,7 +56,7 @@ export class Accessor {
 
   getAggregations(path, defaultValue){
     const results = this.getResults()
-    const getPath = compact(['aggregations',...path])
+    const getPath = flatten(compact(['aggregations',...path]))
     return get(results, getPath, defaultValue)
   }
 

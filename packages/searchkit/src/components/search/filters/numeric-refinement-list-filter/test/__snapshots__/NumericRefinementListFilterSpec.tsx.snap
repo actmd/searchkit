@@ -4,7 +4,11 @@ exports[`NumericRefinementListFilter tests should allow custom mod, className, l
 <div class="sk-panel filter--score">
   <div class="sk-panel__header">Score</div>
   <div class="sk-panel__content">
-    <div class="my-numeric my-class"><select><option value="All">Everything (#30)</option><option value="up to 20">up to 20 (#10)</option><option value="21 to 40">21 to 40 (#20)</option></select></div>
+    <div class="my-numeric my-class"><select>
+        <option value="All">Everything (#30)</option>
+        <option value="up to 20">up to 20 (#10)</option>
+        <option value="21 to 40">21 to 40 (#20)</option>
+      </select></div>
   </div>
 </div>
 `;

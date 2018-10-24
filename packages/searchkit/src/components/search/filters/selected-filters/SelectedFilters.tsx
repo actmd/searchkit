@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as moment from "moment";
 
 import {
 	SearchkitComponent,
@@ -12,6 +13,8 @@ const defaults = require("lodash/defaults")
 const size = require("lodash/size")
 const map = require("lodash/map")
 
+const displayFormat = 'DD MMM YYYY';
+const searchkitFormat = "DD.MM.YYYY";
 export class FilterItem extends React.PureComponent<FilterItemProps, any> {
 
 	render(){
@@ -74,17 +77,34 @@ export class SelectedFilters extends SearchkitComponent<SelectedFiltersProps, an
 	}
 
 	renderFilter(filter) {
-
+    const filterValue = this.translateFilterValue(filter.value, filter.id);
 		return renderComponent(this.props.itemComponent, {
-			key:filter.name +'$$' + filter.value,
+			key:filter.name +'$$' + filterValue,
 			bemBlocks:this.bemBlocks,
 			filterId:filter.id,
 			labelKey:this.translate(filter.name),
-			labelValue:this.translate(filter.value),
+			labelValue:this.translate(filterValue),
 			removeFilter:this.removeFilter.bind(this, filter),
 			translate:this.translate
 		})
 	}
+
+  translateFilterValue(filterValue, filterId){
+    if (filterId == "range_due_at") {
+      return this.formatDate(filterValue);
+    } else {
+      return filterValue;
+    }
+  };
+
+  formatDate(dateString){
+    const dateArray = dateString.split(" – ");
+    return `${this.fromSearchkitToDisplayDate(dateArray[0])} - ${this.fromSearchkitToDisplayDate(dateArray[1])}`;
+  };
+
+  fromSearchkitToDisplayDate(dateString) {
+    return moment(dateString, searchkitFormat).format(displayFormat);
+  };
 
 	removeFilter(filter) {
 		filter.remove()

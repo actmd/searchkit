@@ -103,7 +103,11 @@ exports[`View Switcher Hits component renders correctly custom mod, className, l
     <div class="grid-item">1</div>
     <div class="grid-item">2</div>
   </div>
-  <div class="my-view-switcher customClass"><select><option value="grid">My Grid</option><option value="list">List</option><option value="custom-list">Custom List</option></select></div>
+  <div class="my-view-switcher customClass"><select>
+      <option value="grid">My Grid</option>
+      <option value="list">List</option>
+      <option value="custom-list">Custom List</option>
+    </select></div>
 </div>
 `;
 

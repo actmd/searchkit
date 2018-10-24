@@ -2,7 +2,11 @@
 
 exports[`PageSizeSelector should render and behave correctly 1`] = `
 <div>
-  <div class="sk-select"><select><option value="4">4</option><option value="12">12</option><option value="24">24</option></select></div>
+  <div class="sk-select"><select>
+      <option value="4">4</option>
+      <option value="12">12</option>
+      <option value="24">24</option>
+    </select></div>
   <div data-qa="hits" class="sk-hits">
     <div data-qa="hit" class="sk-hits-hit sk-hits__item">1</div>
     <div data-qa="hit" class="sk-hits-hit sk-hits__item">2</div>
