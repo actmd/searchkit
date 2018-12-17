@@ -33,8 +33,7 @@ export class MultiFieldFacetAccessor extends FacetAccessor {
           this.uuid,
           query.getFiltersWithoutKeys(excludedKey),
           ...this.fieldContext.wrapAggregations(
-            this.buildAggregations(query),
-            CardinalityMetric(this.key+"_count", this.key)
+            this.buildAggregations(query)
           )
         ))
     }
@@ -53,11 +52,11 @@ export class MultiFieldFacetAccessor extends FacetAccessor {
             min_doc_count:accessor.options.min_doc_count
           }, isUndefined), result
         );
-        if (field == this.key) {
-          return terms;
-        }
-        const cardinality = CardinalityMetric(field+"_count", field)
-        return {...terms, ...cardinality}
+
+        const cardinality = CardinalityMetric(field+"_count", field),
+        const stats = StatsMetric(field+"_stats", field+".integer")
+
+        return {...terms, ...cardinality, ...stats}
       }, {}
     )
   }
