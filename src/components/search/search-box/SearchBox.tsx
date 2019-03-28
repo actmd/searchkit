@@ -105,6 +105,7 @@ export class SearchBox extends SearchkitComponent<SearchBoxProps, any> {
   }
 
   searchQuery(query) {
+    console.log("inside searchQuery");
     let shouldResetOtherState = false
     this.accessor.setQueryString(query, shouldResetOtherState )
     let now = +new Date
@@ -127,6 +128,7 @@ export class SearchBox extends SearchkitComponent<SearchBoxProps, any> {
   }
 
   onChange(e){
+    console.log("Inside onChange");
     const query = e.target.value;
     if(this.props.onChangeHandler) {
       this.props.onChangeHandler()
@@ -141,6 +143,7 @@ export class SearchBox extends SearchkitComponent<SearchBoxProps, any> {
   }
 
   setFocusState(focused:boolean) {
+    console.log("inside setFocusState");
     if (!focused){
       const { input } = this.state
       if (this.props.blurAction == "search"
