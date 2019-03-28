@@ -25,6 +25,7 @@ export interface SearchBoxProps extends SearchkitComponentProps {
   prefixQueryFields?:Array<string>
   prefixQueryOptions?:Object
   blurAction?:"search"|"restore"
+  onChangeHandler?:Function
 }
 
 export class SearchBox extends SearchkitComponent<SearchBoxProps, any> {
@@ -127,6 +128,9 @@ export class SearchBox extends SearchkitComponent<SearchBoxProps, any> {
 
   onChange(e){
     const query = e.target.value;
+    if(this.props.onChangeHandler) {
+      this.props.onChangeHandler()
+    }
     if (this.props.searchOnChange) {
       this.accessor.setQueryString(query)
       this.throttledSearch()
