@@ -100,13 +100,13 @@ export class SearchBox extends SearchkitComponent<SearchBoxProps, any> {
   }
 
   onSubmit(event) {
-    console.log("inside onSubmit");
+    console.warn("inside onSubmit");
     event.preventDefault()
     this.searchQuery(this.getValue())
   }
 
   searchQuery(query) {
-    console.log("inside searchQuery");
+    console.warn("inside searchQuery");
     let shouldResetOtherState = false
     this.accessor.setQueryString(query, shouldResetOtherState )
     let now = +new Date
@@ -129,7 +129,7 @@ export class SearchBox extends SearchkitComponent<SearchBoxProps, any> {
   }
 
   onChange(e){
-    console.log("Inside onChange");
+    console.warn("Inside onChange");
     const query = e.target.value;
     if(this.props.onChangeHandler) {
       this.props.onChangeHandler()
@@ -144,7 +144,7 @@ export class SearchBox extends SearchkitComponent<SearchBoxProps, any> {
   }
 
   setFocusState(focused:boolean) {
-    console.log("inside setFocusState");
+    console.warn("inside setFocusState");
     if (!focused){
       const { input } = this.state
       if (this.props.blurAction == "search"
@@ -162,7 +162,7 @@ export class SearchBox extends SearchkitComponent<SearchBoxProps, any> {
   }
 
   render() {
-    console.log("inside SearchBox render");
+    console.warn("inside SearchBox render");
     let block = this.bemBlocks.container
 
     return (
