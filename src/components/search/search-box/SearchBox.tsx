@@ -100,6 +100,7 @@ export class SearchBox extends SearchkitComponent<SearchBoxProps, any> {
   }
 
   onSubmit(event) {
+    console.log("inside onSubmit");
     event.preventDefault()
     this.searchQuery(this.getValue())
   }
@@ -161,6 +162,7 @@ export class SearchBox extends SearchkitComponent<SearchBoxProps, any> {
   }
 
   render() {
+    console.log("inside SearchBox render");
     let block = this.bemBlocks.container
 
     return (
